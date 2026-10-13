@@ -1,18 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button } from 'react-native';
+import { useState } from 'react-native';
 import { TextInput } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
+  const [text, setText] = useState('');
+  const [tasklist, setTaskList] = useState([]); 
+  function inputHandler(text) {
+    setText(text);
+  }
+  function addHandler() {
+    setTaskList([...taskList, text]);
+    setText('');
+  }
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Zadaj:"></TextInput>
-        <Button title="ADD" />
+        <TextInput onChangeText={inputHandler} style={styles.input} placeholder="Zadaj:"></TextInput>
+        <Button onPress={addHandler} title="ADD" />
       </View>
       <View style={styles.taskContainer}>
-        <Text>UDALOSTI .........</Text>
-      </View>
+        {taskList.map((i) => 
+          {return <Text style={styles.taskText}>{i}</Text>})}
+        </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -21,7 +32,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
   },
   input: {
     borderWidth: 5,
@@ -40,5 +50,11 @@ const styles = StyleSheet.create({
     flex: 3, 
     borderTopWidth: 3, 
     padding: 20,
+  },
+  taskText: {
+    backgroundColor: 'red',
+    margin: 10,
+    padding: 5,
+    borderRadius: 8,
   },
 });

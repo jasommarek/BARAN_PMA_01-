@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { Button } from 'react-native';
-import { useState } from 'react-native';
 import { TextInput } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   const [text, setText] = useState('');
-  const [tasklist, setTaskList] = useState([]); 
+  const [taskList, setTaskList] = useState([]); 
   function inputHandler(text) {
     setText(text);
   }

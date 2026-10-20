@@ -2,7 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button } from 'react-native';
 import { TextInput } from 'react-native';
+import { ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
+import TaskItem from './src/components/TaskItem';
 
 export default function App() {
   const [text, setText] = useState('');
@@ -11,7 +14,7 @@ export default function App() {
     setText(text);
   }
   function addHandler() {
-    setTaskList([...taskList, text]);
+    setTaskList([...taskList, {title: text, done: true}]);
     setText('');
   }
   return (
@@ -20,10 +23,11 @@ export default function App() {
         <TextInput onChangeText={inputHandler} style={styles.input} placeholder="Zadaj:"></TextInput>
         <Button onPress={addHandler} title="ADD" />
       </View>
-      <View style={styles.taskContainer}>
-        {taskList.map((i) => 
-          {return <Text style={styles.taskText}>{i}</Text>})}
-        </View>
+       <FlatList
+        data={taskList}
+        renderItem={({item}) => <TaskItem itemTask={item} />}
+        keyExtractor={item => item.id}
+      />
       <StatusBar style="auto" />
     </View>
   );
@@ -46,11 +50,6 @@ const styles = StyleSheet.create({
   flexDirection: 'row',
   paddingHorizontal: 20,
 },
-  taskContainer: {
-    flex: 3, 
-    borderTopWidth: 3, 
-    padding: 20,
-  },
   taskText: {
     backgroundColor: 'red',
     margin: 10,
